@@ -1,0 +1,12 @@
+spring:
+  profiles:
+    active: local
+
+---
+spring:
+  profiles: local
+
+  h2:
+    console:
+      path=/h2-console:
+      enabled: true
