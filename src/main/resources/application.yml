@@ -6,6 +6,17 @@ spring:
 spring:
   profiles: local
 
+  datasource:
+    platform: h2
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    database-platform: H2
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
   h2:
     console:
       path: /h2-console

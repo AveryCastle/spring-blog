@@ -24,8 +24,15 @@ public class SpringBlogApplication {
     public CommandLineRunner setupDefaultUser(UserService service) {
         return args -> {
             service.save(new User(
-                    "user", //username
-                    "user", //password
+                    "user1", //username
+                    "password1", //password
+                    Arrays.asList(new Role("USER"), new Role("ACTUATOR")),//roles
+                    true//Active
+            ));
+
+            service.save(new User(
+                    "user2", //username
+                    "password2", //password
                     Arrays.asList(new Role("USER"), new Role("ACTUATOR")),//roles
                     true//Active
             ));
@@ -33,7 +40,7 @@ public class SpringBlogApplication {
     }
 
     @Bean
-    public PasswordEncoder getPasswordEncoder(){
+    public PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }
