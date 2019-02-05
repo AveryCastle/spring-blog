@@ -1,6 +1,7 @@
 package com.practice.github.springblog.configurations;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
@@ -18,6 +19,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
                     .and()
                 .authorizeRequests()
                     .antMatchers("/", "/h2-console/**").permitAll()
-                    .antMatchers("/private/**", "/posts").authenticated();
+                    .antMatchers(HttpMethod.GET, "/posts").permitAll()
+                    .antMatchers(HttpMethod.POST, "/posts").authenticated();
     }
 }
