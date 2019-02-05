@@ -1,29 +1,20 @@
-package com.practice.github.springblog.entities;
+package com.practice.github.springblog.configurations;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
-public class CustomerUserDetail implements UserDetails {
-
-    private String username;
-    private String password;
+public class CustomUserDetails implements UserDetails {
+    private final String username;
+    private final String password;
     private Collection<? extends GrantedAuthority> authorities;
 
-    public CustomerUserDetail(User user) {
+    public CustomUserDetails(User user) {
         this.username = user.getUsername();
         this.password = user.getPassword();
-
-        List<GrantedAuthority> authorityList = new ArrayList<>();
-        for (Role role: user.getRoles()) {
-            authorityList.add(new SimpleGrantedAuthority(role.getName().toUpperCase()));
-        }
-
-        this.authorities = authorityList;
+        this.authorities = user.getAuthorities();
     }
 
     @Override
@@ -48,16 +39,16 @@ public class CustomerUserDetail implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }

@@ -1,9 +1,13 @@
 package com.practice.github.springblog.controllers;
 
+import com.practice.github.springblog.configurations.CustomUserDetails;
 import com.practice.github.springblog.entities.Post;
 import com.practice.github.springblog.services.PostService;
+import com.practice.github.springblog.services.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +23,9 @@ public class BlogController {
     @Autowired
     private PostService postService;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/index")
     public String index() {
         return "index";
@@ -31,6 +38,9 @@ public class BlogController {
 
     @PostMapping
     public Post save(@RequestBody Post post) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        CustomUserDetails customUserDetails = new CustomUserDetails(user);
+        post.setUser(userService.loadUserByUsername(customUserDetails.getUsername()));
         return postService.save(post);
     }
 }
